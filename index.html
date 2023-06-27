@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Input Data</title>
+  <style>
+    /* Stylesheet untuk tampilan form */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    input[type="text"],
+    select {
+      width: 200px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+  
+    input[type="submit"] {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Form Input Data</h1>
+  <form id="dataForm">
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" name="nama" required>
+  
+    <label for="jenisKelamin">Jenis Kelamin:</label>
+    <select id="jenisKelamin" name="jenisKelamin" required>
+      <option value="L">Laki-laki</option>
+      <option value="P">Perempuan</option>
+    </select>
+  
+    <label for="usia">Usia:</label>
+    <input type="text" id="usia" name="usia" required>
+  
+    <label for="rt">RT:</label>
+    <input type="text" id="rt" name="rt" required>
+  
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+      <option value="Aktif">Aktif</option>
+      <option value="Non-Aktif">Non-Aktif</option>
+      <option value="Meninggal">Meninggal</option>
+    </select>
+  
+    <input type="submit" value="Submit">
+  </form>
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Fungsi untuk mengirim data ke Google Sheets
+    function submitData(event) {
+      event.preventDefault();
+  
+      const form = document.getElementById('dataForm');
+      const formData = new FormData(form);
+      const jsonData = {};
+  
+      for (let pair of formData.entries()) {
+        jsonData[pair[0]] = pair[1];
+      }
+  
+      axios.post('https://script.google.com/macros/s/AKfycbzCUS-E23iPSHHbH6kWWPBH9rryHo0RTLY0kpIrHMI2FBQ5ho8JXNT_QeRajD-KTZ3xnw/exec', jsonData)
+        .then(function (response) {
+          console.log(response);
+          alert('Data berhasil disimpan!');
+          form.reset();
+        })
+        .catch(function (error) {
+          console.error(error);
+          alert('Terjadi kesalahan saat menyimpan data.');
+        });
+    }
+  
+    const form = document.getElementById('dataForm');
+    form.addEventListener('submit', submitData);
+  </script>
+</body>
+</html>
