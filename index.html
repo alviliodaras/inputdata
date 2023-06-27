@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Form Input Data</title>
+    <title>Formulir Input Data Penduduk</title>
 </head>
 <body>
-  <h1>Form Input Data</h1>
-  <form id="dataForm">
-    <label for="nama">Nama:</label>
-    <input type="text" id="nama" name="nama" required><br><br>
+    <h1>Formulir Input Data Penduduk</h1>
+    <form id="dataForm" onsubmit="submitForm(event)">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required><br>
 
-    <label for="jenisKelamin">Jenis Kelamin:</label>
-    <select id="jenisKelamin" name="jenisKelamin" required>
-      <option value="L">Laki-laki</option>
-      <option value="P">Perempuan</option>
-    </select><br><br>
+        <label for="jenisKelamin">Jenis Kelamin:</label>
+        <select id="jenisKelamin" name="jenisKelamin" required>
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+        </select><br>
 
-    <label for="usia">Usia:</label>
-    <input type="number" id="usia" name="usia" required><br><br>
+        <label for="usia">Usia:</label>
+        <input type="number" id="usia" name="usia" required><br>
 
-    <label for="rt">RT:</label>
-    <input type="number" id="rt" name="rt" min="1" max="6" required><br><br>
+        <label for="rt">RT:</label>
+        <input type="text" id="rt" name="rt" required><br>
 
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-      <option value="Aktif">Aktif</option>
-      <option value="Non-Aktif">Non-Aktif</option>
-      <option value="Meninggal">Meninggal</option>
-    </select><br><br>
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Aktif">Aktif</option>
+            <option value="Non-Aktif">Non-Aktif</option>
+            <option value="Meninggal">Meninggal</option>
+        </select><br>
 
-    <button type="submit">Submit</button>
-  </form>
+        <button type="submit">Submit</button>
+    </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    var form = document.getElementById('dataForm');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      var jsonData = {
-        nama: document.getElementById('nama').value,
-        jenisKelamin: document.getElementById('jenisKelamin').value,
-        usia: document.getElementById('usia').value,
-        rt: document.getElementById('rt').value,
-        status: document.getElementById('status').value
-      };
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
 
-      axios.post('https://script.google.com/macros/s/AKfycbzCUS-E23iPSHHbH6kWWPBH9rryHo0RTLY0kpIrHMI2FBQ5ho8JXNT_QeRajD-KTZ3xnw/exec', jsonData)
-        .then(function(response) {
-          console.log(response.data);
-          // Tambahkan kode untuk menampilkan pesan sukses atau tindakan lainnya setelah data berhasil terkirim.
-        })
-        .catch(function(error) {
-          console.error(error);
-          // Tambahkan kode untuk menampilkan pesan kesalahan atau tindakan lainnya jika terjadi kesalahan saat mengirim data.
-        });
-    });
-  </script>
+            var data = {
+                'Nama': document.getElementById('nama').value,
+                'Jenis Kelamin': document.getElementById('jenisKelamin').value,
+                'Usia': document.getElementById('usia').value,
+                'RT': document.getElementById('rt').value,
+                'Status': document.getElementById('status').value
+            };
+
+            fetch('https://sheetsu.com/apis/v1.0/5ce09cf516b6', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(function (response) {
+                console.log('Data berhasil dikirim!');
+                document.getElementById('dataForm').reset();
+            })
+            .catch(function (error) {
+                console.error('Terjadi kesalahan:', error);
+            });
+        }
+    </script>
 </body>
 </html>
